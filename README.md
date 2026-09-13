@@ -35,18 +35,26 @@ O projeto foi construído inspirado no padrão de design e animações do [Frame
    - **Infinite Marquee**: Letreiro digital infinito com os diferenciais e serviços.
    - **Hover Interactions**: Brilho metálico percorrendo botões dourados e elevação suave dos itens.
 
-3. **Menu Hambúrguer com Fechar & Voltar**:
+3. **Alternância entre Modo Escuro & Modo Claro (Dark/Light Theme)**:
+   - Botão circular posicionado estrategicamente ao lado do menu no cabeçalho.
+   - Alterna instantaneamente entre o luxuoso visual *Deep Navy* e o sofisticado *Off-White com Dourado*.
+   - Salva a preferência do visitante no `localStorage` do navegador para manter o tema nas próximas visitas.
+
+4. **Sinal de Barbeiro Brilhante & Animado (Barber Pole)**:
+   - Sinal clássico de barbeiro em miniatura, brilhante e animado com rotação contínua das listras vermelhas, brancas e azuis e aura luminosa dourada, integrado no selo de destaque da seção Hero.
+
+5. **Menu Hambúrguer com Fechar & Voltar**:
    - Totalmente adaptado para dispositivos móveis.
    - Botão circular de fechar (`X`) no topo direito.
    - Botão explícito de retorno (`← Voltar ao site`).
    - Fechamento prático ao clicar em qualquer link ou pressionar a tecla `ESC`.
 
-4. **Botões Flutuantes Elegantes**:
+6. **Botões Flutuantes Elegantes**:
    - Canto inferior direito fixo:
      - **WhatsApp**: com efeito pulsante e atalho para o agendamento (`(11) 94856-8716`).
      - **Instagram**: com gradiente oficial direcionando para `@axbarbeariastudio`.
 
-5. **SEO Local Completo (Google Search & Google Maps)**:
+7. **SEO Local Completo (Google Search & Google Maps)**:
    - **Schema.org (JSON-LD)** configurado com a categoria `BarberShop`, endereço, coordenadas geográficas, horários, telefone e catálogo de ofertas.
    - **Meta tags geográficas**: Latitude/Longitude exatas e região Penha de França / Zona Leste.
    - **Open Graph completo**: Miniatura do logotipo HD ao compartilhar links no WhatsApp e redes sociais.

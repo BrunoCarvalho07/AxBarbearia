@@ -185,19 +185,25 @@
         </ul>
       </nav>
 
-      <!-- Botão CTA de Agendamento e Menu Hambúrguer -->
-      <div class="nav-actions">
-        <a href="#agendamento" class="btn btn-gold btn-header-hide" title="Agendar horário no WhatsApp">
-          <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
-          <span>Agendar Horário</span>
-        </a>
+        <!-- Botão CTA de Agendamento, Alternador de Tema e Menu Hambúrguer -->
+        <div class="nav-actions">
+          <!-- Botão de Alternância Modo Claro / Modo Escuro -->
+          <button class="theme-toggle" id="themeToggle" aria-label="Alternar entre modo claro e escuro" title="Alternar tema">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+          </button>
 
-        <!-- Botão Hambúrguer para Mobile -->
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu de Navegação" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+          <a href="#agendamento" class="btn btn-gold btn-header-hide" title="Agendar horário no WhatsApp">
+            <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+            <span>Agendar Horário</span>
+          </a>
+
+          <!-- Botão Hambúrguer para Mobile -->
+          <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu de Navegação" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -245,7 +251,10 @@
         <!-- Conteúdo Textual do Hero -->
         <div class="hero-content">
           <div class="hero-badge reveal">
-            <i class="fa-solid fa-crown" aria-hidden="true"></i>
+            <!-- Sinal de Barbeiro Clássico Brilhante e Animado -->
+            <span class="barber-pole-glow" title="Tradicional Barber Pole" aria-hidden="true">
+              <span class="barber-stripes"></span>
+            </span>
             <span>EXCLUSIVIDADE • TRADIÇÃO • PRECISÃO</span>
           </div>
 
@@ -280,20 +289,6 @@
                 <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Ao lado do Metrô Guilhermina - Penha</p>
               </div>
             </div>
-
-            <!-- Selo Flutuante com Microanimação -->
-            <div class="floating-badge">
-              <div class="floating-badge-icon">
-                <i class="fa-solid fa-award" aria-hidden="true"></i>
-              </div>
-              <div class="floating-badge-text">
-                <h5>Padrão Premium</h5>
-                <p>Atendimento com Hora Marcada</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>

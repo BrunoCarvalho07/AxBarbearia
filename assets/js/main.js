@@ -56,6 +56,45 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(hidePreloader, 2500);
 
   // ==========================================================================
+  // 1.1 ALTERNÂNCIA DE TEMA (MODO ESCURO / MODO CLARO)
+  // ==========================================================================
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  /**
+   * Atualiza o ícone conforme o tema ativo
+   */
+  function updateThemeIcon(isLight) {
+    if (themeIcon) {
+      if (isLight) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    }
+  }
+
+  // Verifica preferência salva no LocalStorage ou preferência do sistema operacional
+  const savedTheme = localStorage.getItem('ax_theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+    updateThemeIcon(true);
+  } else {
+    updateThemeIcon(false);
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      localStorage.setItem('ax_theme', isLight ? 'light' : 'dark');
+      updateThemeIcon(isLight);
+    });
+  }
+
+  // ==========================================================================
   // 2. SCROLL HEADER & BARRA DE PROGRESSO DOURADA
   // ==========================================================================
   const header = document.getElementById('mainHeader') || document.querySelector('.header');

@@ -1622,3 +1622,353 @@ button, input, select, textarea {
     height: 50px;
   }
 }
+
+/* ==========================================================================
+   BOTÃO DE ALTERNÂNCIA MODO ESCURO / MODO CLARO (THEME TOGGLE)
+   ========================================================================== */
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-gold);
+  color: var(--gold-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+  position: relative;
+  outline: none;
+}
+
+.theme-toggle:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: #fff;
+  transform: scale(1.08) rotate(15deg);
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+
+/* ==========================================================================
+   SINAL DE BARBEIRO BRILHANTE & PEQUENO (GLOWING BARBER POLE)
+   ========================================================================== */
+.barber-pole-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1.5px solid var(--gold-primary);
+  background: #050b14;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.6), 0 0 20px rgba(239, 68, 68, 0.3);
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Listras giratórias vermelhas, brancas e azuis tradicionais */
+.barber-stripes {
+  position: absolute;
+  inset: -10px -4px;
+  background: repeating-linear-gradient(
+    45deg,
+    #ef4444,
+    #ef4444 4px,
+    #ffffff 4px,
+    #ffffff 8px,
+    #2563eb 8px,
+    #2563eb 12px,
+    #ffffff 12px,
+    #ffffff 16px
+  );
+  animation: barberScroll 1.2s linear infinite;
+}
+
+@keyframes barberScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(16px); }
+}
+
+/* ==========================================================================
+   MODO CLARO (LIGHT THEME) - PALETA REFINADA EM CINZA SUAVE (#eaeef4), DOURADO & AZUL
+   ========================================================================== */
+body.light-theme {
+  --bg-dark: #edf1f7;
+  --bg-dark-secondary: #e2e8f0;
+  --bg-surface: #f4f6fa;
+  --bg-card: #f8fafc;
+  --bg-glass: rgba(237, 241, 247, 0.94);
+
+  --text-white: #0f172a;
+  --text-muted: #334155;
+  --text-dim: #475569;
+
+  --border-gold: rgba(180, 140, 20, 0.4);
+  --border-subtle: rgba(15, 23, 42, 0.12);
+
+  background: radial-gradient(circle at 50% -10%, #dbe4ef 0%, #edf1f7 65%);
+  color: #0f172a;
+}
+
+body.light-theme .header.scrolled {
+  background: rgba(237, 241, 247, 0.95);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Tipografia e Títulos no Tema Claro */
+body.light-theme .logo-brand,
+body.light-theme .nav-link,
+body.light-theme .hero-title,
+body.light-theme .stat-item h3,
+body.light-theme .section-header h2,
+body.light-theme .about-text h2,
+body.light-theme .price-item-title,
+body.light-theme .location-details h3,
+body.light-theme .footer-col h4,
+body.light-theme .reviewer-info h5,
+body.light-theme .feature-info h4,
+body.light-theme .info-content h4 {
+  color: #0f172a !important;
+}
+
+body.light-theme .hero-card-overlay h4,
+body.light-theme .floating-badge-text h5,
+body.light-theme .gallery-overlay h4 {
+  color: #ffffff !important;
+}
+
+/* 1. CORREÇÃO: Selo AX (Experiência & Estilo na seção Sobre) */
+body.light-theme .about-badge-exp {
+  background: #ffffff;
+  border-color: #d4af37;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .about-badge-exp .lbl {
+  color: #0f172a !important;
+  font-weight: 700;
+}
+
+/* 2. CORREÇÃO: Depoimentos / Avaliações (Texto das avaliações que sumiu) */
+body.light-theme .review-card {
+  background: #ffffff;
+  border-color: rgba(180, 140, 20, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .review-card .review-text {
+  color: #1e293b !important; /* Escuro legível e nítido */
+  font-weight: 500;
+}
+
+body.light-theme .reviewer-info span {
+  color: #64748b !important;
+}
+
+/* 3. CORREÇÃO: Botão Outline ("Ver Serviços & Valores" e botões secundários) */
+body.light-theme .btn-outline {
+  background: #ffffff;
+  color: #0f172a !important;
+  border: 1.5px solid #b8860b !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .btn-outline:hover {
+  background: #f1f5f9;
+  border-color: #8c6508 !important;
+  color: #8c6508 !important;
+}
+
+/* Selo Hero e Barber Pole */
+body.light-theme .hero-badge {
+  background: rgba(180, 140, 20, 0.1);
+  border-color: rgba(180, 140, 20, 0.35);
+}
+
+body.light-theme .hero-badge span {
+  color: #8c6508;
+  font-weight: 700;
+}
+
+body.light-theme .sub-tag {
+  color: #8c6508;
+}
+
+body.light-theme .sub-tag::before, 
+body.light-theme .sub-tag::after {
+  background: #b8860b;
+}
+
+/* Letreiro Infinito no Modo Claro */
+body.light-theme .marquee-section {
+  background: linear-gradient(90deg, #e2e8f0, #edf1f7, #e2e8f0);
+  border-color: rgba(180, 140, 20, 0.35);
+}
+
+body.light-theme .marquee-item {
+  color: #0f172a;
+}
+
+/* Lista de Preços no Modo Claro */
+body.light-theme .price-list-wrapper {
+  background: #ffffff;
+  border-color: rgba(180, 140, 20, 0.35);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .price-item {
+  border-bottom-color: #e2e8f0;
+}
+
+body.light-theme .price-item:hover {
+  background: #f1f5f9;
+}
+
+body.light-theme .price-item-value {
+  color: #996515;
+}
+
+body.light-theme .price-item-desc,
+body.light-theme .hero-desc,
+body.light-theme .about-text p,
+body.light-theme .section-header p,
+body.light-theme .info-content p,
+body.light-theme .footer-brand p,
+body.light-theme .footer-col a,
+body.light-theme .stat-item p {
+  color: #334155 !important;
+}
+
+/* Agendamento e Formulário */
+body.light-theme .booking-wrapper {
+  background: #ffffff;
+  border-color: rgba(180, 140, 20, 0.35);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.07);
+}
+
+body.light-theme .form-group label {
+  color: #8c6508;
+}
+
+body.light-theme .form-control {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+body.light-theme .form-control option {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+body.light-theme .slot-btn {
+  background: #edf2f7;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+body.light-theme .slot-btn:hover {
+  background: #e2e8f0;
+  border-color: #996515;
+  color: #0f172a;
+}
+
+body.light-theme .slot-btn.active {
+  background: var(--gold-gradient);
+  color: #050b14;
+  border-color: transparent;
+}
+
+body.light-theme .booking-summary-box {
+  background: #f8fafc;
+  border-color: rgba(180, 140, 20, 0.4);
+}
+
+body.light-theme .summary-label {
+  color: #64748b;
+}
+
+body.light-theme .summary-val {
+  color: #0f172a;
+}
+
+body.light-theme .summary-val.gold {
+  color: #996515;
+}
+
+/* Localização e Footer */
+body.light-theme .location-box {
+  background: #ffffff;
+  border-color: rgba(180, 140, 20, 0.35);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.07);
+}
+
+body.light-theme .location-map-wrapper iframe {
+  filter: none; /* Deixa o mapa com visual natural e nítido no tema claro */
+}
+
+body.light-theme .footer {
+  background: #e2e8f0;
+  border-top-color: #cbd5e1;
+}
+
+body.light-theme .footer-bottom {
+  border-top-color: #cbd5e1;
+  color: #475569;
+}
+
+body.light-theme .developer-link {
+  background: #ffffff;
+  color: #8c6508;
+  border-color: rgba(180, 140, 20, 0.3);
+}
+
+body.light-theme .developer-link:hover {
+  background: #d4af37;
+  color: #050b14;
+}
+
+/* Botão Alternador de Tema */
+body.light-theme .theme-toggle {
+  background: #ffffff;
+  border-color: rgba(180, 140, 20, 0.4);
+  color: #8c6508;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .theme-toggle:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Menu Mobile no Modo Claro */
+body.light-theme .mobile-nav {
+  background: rgba(237, 241, 247, 0.98);
+}
+
+body.light-theme .mobile-nav .nav-link {
+  color: #0f172a;
+}
+
+body.light-theme .mobile-nav-close {
+  background: #ffffff;
+  color: #8c6508;
+  border-color: rgba(180, 140, 20, 0.4);
+}
+
+body.light-theme .mobile-nav-back-link {
+  background: #ffffff;
+  color: #8c6508;
+  border: 1px solid rgba(180, 140, 20, 0.3);
+}
+
+body.light-theme .preloader {
+  background: #edf1f7;
+}
+
+
