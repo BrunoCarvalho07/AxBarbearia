@@ -21,40 +21,45 @@ O projeto foi construído inspirado no padrão de design e animações do [Frame
 
 ## ✨ Funcionalidades Principais
 
-1. **Agendamento Inteligente com Calendário & WhatsApp**:
+1. **Agendamento Inteligente com Bloqueio de Horário em Tempo Real**:
    - O cliente escolhe o serviço na tabela ou no formulário.
    - Seleciona o dia no calendário (com bloqueio automático de datas passadas).
-   - Escolhe o horário disponível com 1 clique.
-   - Informa o nome e observações opcionais.
-   - O sistema monta uma mensagem estruturada e abre diretamente o WhatsApp oficial da barbearia (`(11) 94856-8716`).
+   - Horários já reservados por outros clientes ou bloqueados pelo barbeiro ficam automaticamente indisponíveis com tag **"Ocupado"** e risco no texto, impedindo que duas pessoas agendem o mesmo horário na mesma data.
+   - Ao confirmar, o agendamento é salvo e o cliente é encaminhado ao WhatsApp oficial da barbearia (`(11) 94856-8716`).
 
-2. **Animações Fluidas Estilo Framer**:
+2. **Painel Exclusivo de Gestão do Barbeiro (`admin.html`)**:
+   - Página restrita e segura com tela de login por senha para o cabeleireiro:
+     - **Usuário**: `Juedil1808`
+     - **Senha**: `Palmeiras2022**`
+   - **Grade Interativa de Horários**: Permite ao barbeiro ver os 10 horários do dia selecionado e bloquear/desbloquear manualmente qualquer horário com 1 clique (ex: para horário de almoço ou imprevistos).
+   - **Lista de Agendamentos**: Visualização completa de todos os agendamentos registrados, com nome do cliente, serviço, data, horário e observações.
+   - **Controle Total**: Opção de cancelar agendamento (liberando o horário na hora), reativar ou excluir permanentemente.
+   - **Métricas do Dia**: Contadores em tempo real de agendamentos do dia, total geral e horários livres.
+
+3. **Animações Fluidas Estilo Framer**:
    - **Preloader Cinematográfico**: Tela de entrada com o logotipo oficial pulsando em dourado antes do carregamento suave da página.
    - **Scroll Progress Bar**: Barra de progresso dourada no topo acompanhando a rolagem da página.
    - **Scroll-Triggered Reveal**: Elementos surgindo com aceleração cúbica natural (`cubic-bezier(0.22, 1, 0.36, 1)`).
    - **Infinite Marquee**: Letreiro digital infinito com os diferenciais e serviços.
    - **Hover Interactions**: Brilho metálico percorrendo botões dourados e elevação suave dos itens.
 
-3. **Alternância entre Modo Escuro & Modo Claro (Dark/Light Theme)**:
+4. **Alternância entre Modo Escuro & Modo Claro (Dark/Light Theme)**:
    - Botão circular posicionado estrategicamente ao lado do menu no cabeçalho.
    - Alterna instantaneamente entre o luxuoso visual *Deep Navy* e o sofisticado *Off-White com Dourado*.
    - Salva a preferência do visitante no `localStorage` do navegador para manter o tema nas próximas visitas.
 
-4. **Sinal de Barbeiro Brilhante & Animado (Barber Pole)**:
-   - Sinal clássico de barbeiro em miniatura, brilhante e animado com rotação contínua das listras vermelhas, brancas e azuis e aura luminosa dourada, integrado no selo de destaque da seção Hero.
+5. **Sinais de Barbeiro Brilhantes & Animados (Double Barber Pole)**:
+   - Dois sinais clássicos de barbeiro (um em cada lado do selo de destaque no Hero) com rotação contínua das listras vermelhas, brancas e azuis, extremidades metálicas e aura luminosa pulsante.
 
-5. **Menu Hambúrguer com Fechar & Voltar**:
-   - Totalmente adaptado para dispositivos móveis.
-   - Botão circular de fechar (`X`) no topo direito.
-   - Botão explícito de retorno (`← Voltar ao site`).
-   - Fechamento prático ao clicar em qualquer link ou pressionar a tecla `ESC`.
+6. **Menu Hambúrguer Minimalista & Eficiente**:
+   - Totalmente adaptado para dispositivos móveis com botão `X` exclusivo para fechar com agilidade e atalho para o Painel Admin.
 
-6. **Botões Flutuantes Elegantes**:
+7. **Botões Flutuantes Elegantes**:
    - Canto inferior direito fixo:
      - **WhatsApp**: com efeito pulsante e atalho para o agendamento (`(11) 94856-8716`).
      - **Instagram**: com gradiente oficial direcionando para `@axbarbeariastudio`.
 
-7. **SEO Local Completo (Google Search & Google Maps)**:
+8. **SEO Local Completo (Google Search & Google Maps)**:
    - **Schema.org (JSON-LD)** configurado com a categoria `BarberShop`, endereço, coordenadas geográficas, horários, telefone e catálogo de ofertas.
    - **Meta tags geográficas**: Latitude/Longitude exatas e região Penha de França / Zona Leste.
    - **Open Graph completo**: Miniatura do logotipo HD ao compartilhar links no WhatsApp e redes sociais.
@@ -66,21 +71,24 @@ O projeto foi construído inspirado no padrão de design e animações do [Frame
 
 ```
 axbarbearia/
-├── index.html                   # Estrutura HTML5 semântica e acessível
+├── index.html                   # Estrutura HTML5 da página principal
+├── admin.html                   # Painel administrativo seguro do barbeiro
 ├── README.md                    # Documentação completa do projeto
 ├── robots.txt                   # Instruções de rastreamento para o Google
 ├── sitemap.xml                  # Mapa do site para o Google Search Console
-├── img/                         # Pasta dedicada de imagens
-│   ├── logo.png                 # Logotipo oficial em alta definição (transparente)
+├── img/                         # Pasta de imagens originais e backups
+│   ├── logo.png                 # Logotipo oficial em alta definição
 │   ├── logo-hd.png              # Backup em alta resolução
 │   └── logo.jpg                 # Imagem original
 └── assets/
     ├── css/
-    │   └── style.css            # Folha de estilos modular e comentada
+    │   ├── style.css            # Estilos gerais do site (Dark/Light theme, animações)
+    │   └── admin.css            # Estilos dedicados ao Painel do Barbeiro
     ├── js/
-    │   └── main.js              # Lógica de agendamento, animações e interações
+    │   ├── main.js              # Lógica de agendamento, bloqueio de horários e WhatsApp
+    │   └── admin.js             # Lógica do painel do barbeiro, login e gestão da agenda
     └── images/
-        ├── logo.png             # Logo referenciado pelos assets
+        ├── logo.png             # Logotipo oficial otimizado
         ├── logo-hd.png
         └── logo.jpg
 ```

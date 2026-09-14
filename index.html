@@ -209,18 +209,12 @@
   </header>
 
   <!-- ==========================================================================
-       MENU MOBILE DRAWER (COM BOTÃO DE VOLTAR E FECHAR)
+       MENU MOBILE DRAWER (COM BOTÃO FECHAR X)
        ========================================================================== -->
   <aside class="mobile-nav" id="mobileNav" aria-label="Menu Móvel" aria-hidden="true">
     <!-- Botão Fechar (X) -->
     <button class="mobile-nav-close" id="mobileNavClose" aria-label="Fechar Menu">
       <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-    </button>
-
-    <!-- Botão de Voltar ao Site -->
-    <button class="mobile-nav-back-link" id="mobileNavBack" type="button" aria-label="Voltar para a página">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      <span>Voltar ao site</span>
     </button>
 
     <!-- Links do Menu Móvel -->
@@ -231,6 +225,7 @@
       <li><a href="#galeria" class="nav-link">Galeria</a></li>
       <li><a href="#avaliacoes" class="nav-link">Avaliações</a></li>
       <li><a href="#localizacao" class="nav-link">Localização</a></li>
+      <li><a href="admin.html" class="nav-link" style="font-size: 1.1rem; opacity: 0.75;"><i class="fa-solid fa-lock"></i> Área Admin</a></li>
     </ul>
 
     <!-- Ação de Agendamento Móvel -->
@@ -251,11 +246,15 @@
         <!-- Conteúdo Textual do Hero -->
         <div class="hero-content">
           <div class="hero-badge reveal">
-            <!-- Sinal de Barbeiro Clássico Brilhante e Animado -->
+            <!-- Sinal de Barbeiro Clássico Brilhante e Animado (Lado Esquerdo) -->
             <span class="barber-pole-glow" title="Tradicional Barber Pole" aria-hidden="true">
               <span class="barber-stripes"></span>
             </span>
             <span>EXCLUSIVIDADE • TRADIÇÃO • PRECISÃO</span>
+            <!-- Sinal de Barbeiro Clássico Brilhante e Animado (Lado Direito) -->
+            <span class="barber-pole-glow" title="Tradicional Barber Pole" aria-hidden="true">
+              <span class="barber-stripes"></span>
+            </span>
           </div>
 
           <h1 class="hero-title reveal reveal-delay-1" id="heroMainTitle">
@@ -304,7 +303,6 @@
         <div class="marquee-item">COMBO CORTE + BARBA <span class="dot"></span></div>
         <div class="marquee-item">SOBRANCELHA NA NAVALHA <span class="dot"></span></div>
         <div class="marquee-item">PIGMENTAÇÃO DE BARBA <span class="dot"></span></div>
-        <div class="marquee-item">PLATINADO & COLORAÇÃO <span class="dot"></span></div>
         <div class="marquee-item">AO LADO DO METRÔ GUILHERMINA <span class="dot"></span></div>
       </div>
       <div class="marquee-content">
@@ -313,7 +311,6 @@
         <div class="marquee-item">COMBO CORTE + BARBA <span class="dot"></span></div>
         <div class="marquee-item">SOBRANCELHA NA NAVALHA <span class="dot"></span></div>
         <div class="marquee-item">PIGMENTAÇÃO DE BARBA <span class="dot"></span></div>
-        <div class="marquee-item">PLATINADO & COLORAÇÃO <span class="dot"></span></div>
         <div class="marquee-item">AO LADO DO METRÔ GUILHERMINA <span class="dot"></span></div>
       </div>
     </div>
@@ -477,18 +474,6 @@
           </div>
         </div>
 
-        <!-- Item 6: Platinado / coloração -->
-        <div class="price-item" onclick="selectServiceForBooking('platinado')" role="button" tabindex="0" aria-label="Agendar Platinado ou coloração a partir de R$ 90">
-          <div class="price-item-info">
-            <h3 class="price-item-title">Platinado / coloração</h3>
-            <p class="price-item-desc">Sob avaliação prévia do fio</p>
-          </div>
-          <div class="price-item-value">
-            <span style="font-size: 1.15rem;">a partir de R$ 90</span>
-            <span class="price-item-action">Agendar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </div>
-
         <!-- Rodapé do Quadro de Preços -->
         <div class="price-list-footer">
           <a href="#agendamento" class="btn btn-gold">
@@ -529,7 +514,6 @@
                   <option value="combo" data-price="R$ 70" selected>Combo corte + barba (R$ 70)</option>
                   <option value="sobrancelha" data-price="R$ 20">Sobrancelha na navalha (R$ 20)</option>
                   <option value="pigmentacao" data-price="R$ 40">Pigmentação de barba (R$ 40)</option>
-                  <option value="platinado" data-price="A partir de R$ 90">Platinado / coloração (a partir de R$ 90)</option>
                 </select>
               </div>
 
@@ -813,6 +797,7 @@
             <li><a href="#servicos">Serviços & Preços</a></li>
             <li><a href="#galeria">Galeria</a></li>
             <li><a href="#agendamento">Agendamento</a></li>
+            <li><a href="admin.html" style="color: var(--gold-light);"><i class="fa-solid fa-lock"></i> Painel do Barbeiro</a></li>
           </ul>
         </div>
 
@@ -825,7 +810,6 @@
             <li><a href="#servicos">Combo Corte + Barba</a></li>
             <li><a href="#servicos">Sobrancelha na Navalha</a></li>
             <li><a href="#servicos">Pigmentação de Barba</a></li>
-            <li><a href="#servicos">Platinado / Coloração</a></li>
           </ul>
         </div>
 

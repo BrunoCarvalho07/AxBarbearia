@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel do Barbeiro | Ax Barbearia - Gestão de Agenda</title>
+
+  <!-- Favicon com o logo oficial da Ax Barbearia -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
+
+  <!-- Google Fonts: Inter & Cinzel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+
+  <!-- Estilos Gerais da Barbearia -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Estilos Exclusivos do Painel Administrativo -->
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       TELA DE LOGIN DO ADMINISTRADOR / CABELEIREIRO (AUTH GATE MODAL)
+       ========================================================================== -->
+  <div class="admin-auth-overlay" id="authOverlay">
+    <div class="admin-login-card">
+      <div class="logo-area">
+        <img src="assets/images/logo.png" alt="Ax Barbearia Logo" class="logo-img" width="80" height="80">
+        <h2>Painel do Barbeiro</h2>
+        <p>Acesso restrito para gestão de horários e agendamentos</p>
+      </div>
+
+      <div class="login-error-msg" id="loginError">
+        <i class="fa-solid fa-triangle-exclamation"></i> Usuário ou senha incorretos!
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="admin-input-group">
+          <label for="adminUser"><i class="fa-solid fa-user-tie"></i> Usuário</label>
+          <div class="admin-input-wrapper">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="adminUser" placeholder="Seu usuário de acesso" autocomplete="username" required>
+          </div>
+        </div>
+
+        <div class="admin-input-group">
+          <label for="adminPass"><i class="fa-solid fa-key"></i> Senha de Acesso</label>
+          <div class="admin-input-wrapper">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="adminPass" placeholder="••••••••••••" autocomplete="current-password" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-gold btn-login-submit">
+          <i class="fa-solid fa-right-to-bracket"></i> Acessar Painel
+        </button>
+      </form>
+
+      <a href="index.html" class="back-to-site-link">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao site da barbearia
+      </a>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       BARRA SUPERIOR (HEADER ADMIN)
+       ========================================================================== -->
+  <header class="admin-header">
+    <div class="container admin-header-content">
+      <a href="index.html" class="admin-brand" title="Voltar para a página inicial">
+        <img src="assets/images/logo.png" alt="Ax Barbearia Logo" width="48" height="48">
+        <div>
+          <h1>Ax Barbearia</h1>
+          <span>Painel do Barbeiro • Penha</span>
+        </div>
+      </a>
+
+      <div class="admin-nav-actions">
+        <a href="index.html" class="btn btn-gold" style="padding: 8px 16px; font-size: 0.85rem;" target="_blank" rel="noopener">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver Site
+        </a>
+        <button class="btn-admin-logout" id="btnLogout" title="Sair do painel administrativo">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       CONTEÚDO PRINCIPAL DO DASHBOARD
+       ========================================================================== -->
+  <main class="admin-main">
+    <div class="container">
+
+      <!-- Métricas Resumidas -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fa-regular fa-calendar-check"></i>
+          </div>
+          <div class="metric-info">
+            <h3 id="metricTodayCount">0</h3>
+            <p>Agendamentos Hoje</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div class="metric-info">
+            <h3 id="metricTotalCount">0</h3>
+            <p>Total de Agendamentos</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fa-solid fa-ban"></i>
+          </div>
+          <div class="metric-info">
+            <h3 id="metricBlockedCount">0</h3>
+            <p>Horários Bloqueados</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div class="metric-info">
+            <h3 id="metricFreeCount">10</h3>
+            <p>Horários Livres na Data</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Principal: Gestor de Horários e Lista de Agendamentos -->
+      <div class="admin-grid">
+
+        <!-- Coluna da Esquerda: Gestão de Horários da Data Selecionada -->
+        <div class="admin-panel-card">
+          <div class="panel-header">
+            <h2 class="panel-title">
+              <i class="fa-regular fa-clock"></i> Grade de Horários
+            </h2>
+          </div>
+
+          <!-- Controle de Data -->
+          <div class="date-control-bar">
+            <input type="date" id="adminDateSelector">
+            <button class="btn-date-today" id="btnDateToday">
+              <i class="fa-regular fa-calendar"></i> Hoje
+            </button>
+          </div>
+
+          <!-- Grade de 10 Horários Padrão da Ax Barbearia -->
+          <div class="admin-slots-grid" id="adminSlotsContainer">
+            <!-- Renderizado dinamicamente via assets/js/admin.js -->
+          </div>
+        </div>
+
+        <!-- Coluna da Direita: Lista de Agendamentos Cadastrados -->
+        <div class="admin-panel-card">
+          <div class="panel-header">
+            <h2 class="panel-title">
+              <i class="fa-solid fa-list-check"></i> Agendamentos Recebidos
+            </h2>
+            <span style="font-size: 0.8rem; color: var(--gold-light);" id="appointmentListSubtitle">Exibindo todos</span>
+          </div>
+
+          <!-- Filtro rápido de data / status -->
+          <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+            <select id="filterAppointments" class="form-control" style="padding: 8px 12px; font-size: 0.85rem; background: rgba(4,9,17,0.9); border: 1px solid var(--border-gold); color: #fff; border-radius: 8px;">
+              <option value="selectedDate">Apenas data selecionada ao lado</option>
+              <option value="all" selected>Todos os agendamentos</option>
+              <option value="active">Somente Confirmados</option>
+              <option value="cancelled">Somente Cancelados</option>
+            </select>
+          </div>
+
+          <div class="appointments-list" id="appointmentsList">
+            <!-- Renderizado dinamicamente via assets/js/admin.js -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Notificação Toast Flutuante -->
+  <div class="admin-toast" id="adminToast">
+    <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>
+    <span id="adminToastMsg">Ação realizada com sucesso!</span>
+  </div>
+
+  <!-- Script Modular e Separado do Painel -->
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

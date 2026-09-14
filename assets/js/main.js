@@ -236,6 +236,103 @@ document.addEventListener('DOMContentLoaded', () => {
     return dateStr;
   }
 
+  // ==========================================================================
+  // GESTÃO DE HORÁRIOS OCUPADOS / BLOQUEADOS (PERSISTÊNCIA LOCALSTORAGE)
+  // ==========================================================================
+  
+  /**
+   * Retorna os agendamentos salvos no localStorage
+   */
+  function getStoredAppointments() {
+    try {
+      const data = localStorage.getItem('ax_appointments');
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      console.error('Erro ao ler agendamentos:', e);
+      return [];
+    }
+  }
+
+  /**
+   * Retorna os horários bloqueados manualmente pelo barbeiro
+   */
+  function getStoredBlockedSlots() {
+    try {
+      const data = localStorage.getItem('ax_blocked_slots');
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      console.error('Erro ao ler horários bloqueados:', e);
+      return [];
+    }
+  }
+
+  /**
+   * Verifica se determinado horário já está ocupado por cliente ou bloqueado na data informada
+   */
+  function isSlotUnavailable(dateStr, timeStr) {
+    const appointments = getStoredAppointments();
+    const isBooked = appointments.some(app => 
+      app.date === dateStr && app.time === timeStr && app.status !== 'cancelled'
+    );
+    if (isBooked) return { unavailable: true, reason: 'booked' };
+
+    const blocked = getStoredBlockedSlots();
+    const isBlocked = blocked.some(b => b.date === dateStr && b.time === timeStr);
+    if (isBlocked) return { unavailable: true, reason: 'blocked' };
+
+    return { unavailable: false };
+  }
+
+  /**
+   * Atualiza a disponibilidade visual dos botões de horário com base na data selecionada
+   */
+  function refreshSlotAvailability() {
+    const currentDateVal = dateInput ? dateInput.value : '';
+    if (!currentDateVal) return;
+
+    let hasSelectedValidSlot = false;
+
+    slotButtons.forEach(btn => {
+      const btnTime = btn.dataset.time || btn.textContent.trim();
+      const status = isSlotUnavailable(currentDateVal, btnTime);
+
+      if (status.unavailable) {
+        btn.classList.add('booked');
+        btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
+        btn.title = status.reason === 'booked' ? 'Horário já reservado por outro cliente' : 'Horário indisponível';
+        if (btn.classList.contains('active')) {
+          btn.classList.remove('active');
+        }
+      } else {
+        btn.classList.remove('booked');
+        btn.disabled = false;
+        btn.removeAttribute('aria-disabled');
+        btn.title = 'Horário disponível para agendamento';
+
+        // Se o botão ativo for este, mantemos a seleção
+        if (btnTime === selectedTime) {
+          btn.classList.add('active');
+          hasSelectedValidSlot = true;
+        }
+      }
+    });
+
+    // Se o horário anteriormente selecionado ficou indisponível, seleciona o primeiro disponível
+    if (!hasSelectedValidSlot) {
+      const firstAvailable = Array.from(slotButtons).find(btn => !btn.disabled);
+      if (firstAvailable) {
+        slotButtons.forEach(b => b.classList.remove('active'));
+        firstAvailable.classList.add('active');
+        selectedTime = firstAvailable.dataset.time || firstAvailable.textContent.trim();
+        if (sumTime) sumTime.textContent = selectedTime;
+      } else {
+        selectedTime = '';
+        if (sumTime) sumTime.textContent = 'Sem horários livres';
+      }
+    }
+  }
+
   // Inicializa o campo de data com a data atual e bloqueia datas anteriores
   if (dateInput) {
     const today = new Date().toISOString().split('T')[0];
@@ -243,15 +340,30 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.value = today;
     if (sumDate) sumDate.textContent = formatDateBR(today);
 
+    refreshSlotAvailability();
+
     dateInput.addEventListener('change', (e) => {
-      if (sumDate) sumDate.textContent = formatDateBR(e.target.value);
+      const val = e.target.value;
+      if (sumDate) sumDate.textContent = formatDateBR(val);
+      refreshSlotAvailability();
     });
   }
+
+  // Ouve evento disparado caso a página do admin ou outra aba altere agendamentos
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'ax_appointments' || e.key === 'ax_blocked_slots') {
+      refreshSlotAvailability();
+    }
+  });
 
   // Seleção de horários disponíveis
   slotButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      if (btn.disabled || btn.classList.contains('booked')) {
+        alert('Este horário já está ocupado ou bloqueado. Por favor, escolha outro.');
+        return;
+      }
       slotButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       selectedTime = btn.dataset.time || btn.textContent.trim();
@@ -292,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /**
-   * Envio do Formulário -> Formata mensagem e redireciona ao WhatsApp
+   * Envio do Formulário -> Salva agendamento, bloqueia o horário e redireciona ao WhatsApp
    */
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
@@ -305,23 +417,62 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const currentDateVal = dateInput ? dateInput.value : '';
+      if (!selectedTime) {
+        alert('Não há horários disponíveis para a data selecionada.');
+        return;
+      }
+
+      // Validação de concorrência: verifica se o horário foi bloqueado ou reservado
+      const statusCheck = isSlotUnavailable(currentDateVal, selectedTime);
+      if (statusCheck.unavailable) {
+        alert('Desculpe, este horário acabou de ser reservado ou bloqueado! Por favor, escolha outro horário.');
+        refreshSlotAvailability();
+        return;
+      }
+
       const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
       const serviceName = serviceOption ? serviceOption.text : 'Não informado';
-      const dateVal = sumDate ? sumDate.textContent : 'Hoje';
-      const timeVal = sumTime ? sumTime.textContent : selectedTime;
+      const servicePrice = serviceOption ? serviceOption.dataset.price || '' : '';
+      const dateDisplay = sumDate ? sumDate.textContent : formatDateBR(currentDateVal);
+      const timeVal = selectedTime;
       const notesVal = clientNotes ? clientNotes.value.trim() : '';
 
-      // Montagem da mensagem estruturada para o barbeiro
+      // 1. Salva o agendamento no localStorage para bloquear o horário e alimentar o painel admin
+      try {
+        const appointments = getStoredAppointments();
+        const newAppointment = {
+          id: 'AX-' + Date.now(),
+          clientName: nameVal,
+          service: serviceName,
+          price: servicePrice,
+          date: currentDateVal,
+          dateDisplay: dateDisplay,
+          time: timeVal,
+          notes: notesVal,
+          status: 'confirmed',
+          createdAt: new Date().toISOString()
+        };
+        appointments.push(newAppointment);
+        localStorage.setItem('ax_appointments', JSON.stringify(appointments));
+      } catch (err) {
+        console.error('Erro ao salvar agendamento:', err);
+      }
+
+      // 2. Imediatamente atualiza a interface para mostrar o horário como ocupado
+      refreshSlotAvailability();
+
+      // 3. Montagem da mensagem estruturada para o barbeiro no WhatsApp
       let message = `💈 *NOVO AGENDAMENTO - AX BARBEARIA*\n`;
       message += `📍 *Unidade Penha (Metrô Guilhermina)*\n\n`;
       message += `👤 *Cliente:* ${nameVal}\n`;
       message += `✂️ *Serviço:* ${serviceName}\n`;
-      message += `📅 *Data:* ${dateVal}\n`;
+      message += `📅 *Data:* ${dateDisplay}\n`;
       message += `⏰ *Horário:* ${timeVal}\n`;
       if (notesVal) {
         message += `📝 *Observação:* ${notesVal}\n`;
       }
-      message += `\n_Olá! Gostaria de confirmar meu agendamento na Ax Barbearia._`;
+      message += `\n_Olá! Acabei de registrar meu agendamento no site da Ax Barbearia e gostaria de confirmar._`;
 
       // Codificação segura para URL
       const encodedMessage = encodeURIComponent(message);
