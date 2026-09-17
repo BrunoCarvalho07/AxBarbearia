@@ -28,11 +28,49 @@ document.addEventListener('DOMContentLoaded', () => {
     SESSION_KEY: 'ax_admin_session_auth'
   };
 
-  // Grade oficial de 10 horários da Ax Barbearia
-  const ALL_SLOTS = [
-    '09:00', '10:00', '11:00', '13:30', '14:30', 
-    '15:30', '16:30', '17:30', '18:30', '19:30'
-  ];
+  /**
+   * Horários oficiais de funcionamento da Ax Barbearia:
+   * - Quarta a Sexta: 10:30 às 20:30
+   * - Sábado: 09:00 às 17:00
+   * - Domingo a Terça: Fechado
+   */
+  const SCHEDULE_CONFIG = {
+    WEEKDAY_SLOTS: [
+      '10:30', '11:30', '12:30', '13:30', '14:30',
+      '15:30', '16:30', '17:30', '18:30', '19:30', '20:30'
+    ],
+    SATURDAY_SLOTS: [
+      '09:00', '10:00', '11:00', '12:00', '13:00',
+      '14:00', '15:00', '16:00', '17:00'
+    ]
+  };
+
+  /**
+   * Retorna o dia da semana a partir de 'YYYY-MM-DD' em horário local
+   */
+  function getDayOfWeek(dateStr) {
+    if (!dateStr) return -1;
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      return d.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sáb
+    }
+    return -1;
+  }
+
+  /**
+   * Retorna a lista oficial de horários para a data selecionada
+   */
+  function getSlotsForDate(dateStr) {
+    const day = getDayOfWeek(dateStr);
+    if (day >= 3 && day <= 5) {
+      return { isOpen: true, dayName: 'Quarta a Sexta (10:30 às 20:30)', slots: SCHEDULE_CONFIG.WEEKDAY_SLOTS };
+    }
+    if (day === 6) {
+      return { isOpen: true, dayName: 'Sábado (09:00 às 17:00)', slots: SCHEDULE_CONFIG.SATURDAY_SLOTS };
+    }
+    return { isOpen: false, dayName: 'Fechado (Domingo a Terça)', slots: [] };
+  }
 
   // Elementos de Login e Autenticação
   const authOverlay = document.getElementById('authOverlay');
@@ -45,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Elementos de Painel e Filtros
   const adminDateSelector = document.getElementById('adminDateSelector');
   const btnDateToday = document.getElementById('btnDateToday');
+  const adminScheduleSubtitle = document.getElementById('adminScheduleSubtitle');
   const adminSlotsContainer = document.getElementById('adminSlotsContainer');
   const appointmentsList = document.getElementById('appointmentsList');
   const filterAppointments = document.getElementById('filterAppointments');
@@ -220,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const appointments = getStoredAppointments();
     const blocked = getStoredBlockedSlots();
     const selectedDate = (adminDateSelector && adminDateSelector.value) ? adminDateSelector.value : today;
+    const scheduleInfo = getSlotsForDate(selectedDate);
 
     const activeAppointments = appointments.filter(a => a.status !== 'cancelled');
     const todayAppointments = activeAppointments.filter(a => a.date === today);
@@ -229,20 +269,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (metricBlockedCount) metricBlockedCount.textContent = blocked.length;
 
     // Calcula horários disponíveis na data selecionada
+    if (!scheduleInfo.isOpen) {
+      if (metricFreeCount) metricFreeCount.textContent = '0 (Fechado)';
+      return;
+    }
+
     let occupiedCount = 0;
-    ALL_SLOTS.forEach(time => {
+    scheduleInfo.slots.forEach(time => {
       const isBooked = appointments.some(a => a.date === selectedDate && a.time === time && a.status !== 'cancelled');
       const isBlocked = blocked.some(b => b.date === selectedDate && b.time === time);
       if (isBooked || isBlocked) occupiedCount++;
     });
 
     if (metricFreeCount) {
-      metricFreeCount.textContent = Math.max(0, ALL_SLOTS.length - occupiedCount);
+      metricFreeCount.textContent = Math.max(0, scheduleInfo.slots.length - occupiedCount);
     }
   }
 
   /**
-   * Renderiza os 10 horários do dia com status e botões de ação
+   * Renderiza os horários do dia com status e botões de ação
    */
   function renderSlotsGrid() {
     if (!adminSlotsContainer) return;
@@ -250,10 +295,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedDate = (adminDateSelector && adminDateSelector.value) ? adminDateSelector.value : getTodayString();
     const appointments = getStoredAppointments();
     const blocked = getStoredBlockedSlots();
+    const scheduleInfo = getSlotsForDate(selectedDate);
+
+    if (adminScheduleSubtitle) {
+      adminScheduleSubtitle.textContent = scheduleInfo.dayName;
+    }
 
     adminSlotsContainer.innerHTML = '';
 
-    ALL_SLOTS.forEach(time => {
+    // Se o estabelecimento estiver fechado na data escolhida
+    if (!scheduleInfo.isOpen) {
+      adminSlotsContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 25px 20px; text-align: center; background: rgba(239, 68, 68, 0.08); border: 1px dashed rgba(239, 68, 68, 0.35); border-radius: 12px; color: #fca5a5;">
+          <i class="fa-regular fa-calendar-xmark" style="font-size: 1.8rem; margin-bottom: 8px; display: block;"></i>
+          <strong>Barbearia fechada neste dia.</strong><br>
+          <span style="font-size: 0.85rem; opacity: 0.85;">Horários de atendimento: Quarta a Sexta (10:30 às 20:30) e Sábado (09:00 às 17:00).</span>
+        </div>
+      `;
+      return;
+    }
+
+    scheduleInfo.slots.forEach(time => {
       const bookedApp = appointments.find(a => a.date === selectedDate && a.time === time && a.status !== 'cancelled');
       const isBlocked = blocked.some(b => b.date === selectedDate && b.time === time);
 

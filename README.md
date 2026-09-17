@@ -21,20 +21,24 @@ O projeto foi construído inspirado no padrão de design e animações do [Frame
 
 ## ✨ Funcionalidades Principais
 
-1. **Agendamento Inteligente com Bloqueio de Horário em Tempo Real**:
+1. **Agendamento Inteligente com Grade Dinâmica & Bloqueio em Tempo Real**:
    - O cliente escolhe o serviço na tabela ou no formulário.
    - Seleciona o dia no calendário (com bloqueio automático de datas passadas).
-   - Horários já reservados por outros clientes ou bloqueados pelo barbeiro ficam automaticamente indisponíveis com tag **"Ocupado"** e risco no texto, impedindo que duas pessoas agendem o mesmo horário na mesma data.
+   - **Grade Dinâmica por Dia da Semana**:
+     - **Quarta a Sexta**: 10:30 às 20:30 (slots: 10:30, 11:30, 12:30, 13:30, 14:30, 15:30, 16:30, 17:30, 18:30, 19:30, 20:30)
+     - **Sábado**: 09:00 às 17:00 (slots: 09:00, 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00)
+     - **Domingo, Segunda e Terça**: Fechado (bloqueio automático com aviso elegante na interface).
+   - Horários já reservados ou bloqueados pelo barbeiro ficam indisponíveis com tag **"Ocupado"**, prevenindo duplicidade.
    - Ao confirmar, o agendamento é salvo e o cliente é encaminhado ao WhatsApp oficial da barbearia (`(11) 94856-8716`).
 
 2. **Painel Exclusivo de Gestão do Barbeiro (`admin.html`)**:
    - Página restrita e segura com tela de login por senha para o cabeleireiro:
      - **Usuário**: `Juedil1808`
      - **Senha**: `Palmeiras2022**`
-   - **Grade Interativa de Horários**: Permite ao barbeiro ver os 10 horários do dia selecionado e bloquear/desbloquear manualmente qualquer horário com 1 clique (ex: para horário de almoço ou imprevistos).
+   - **Grade Dinâmica de Horários**: Exibe os horários exatos conforme o dia da semana selecionado, permitindo bloquear e desbloquear horários com 1 clique. Dias fechados (domingo a terça) exibem aviso de folga da barbearia.
    - **Lista de Agendamentos**: Visualização completa de todos os agendamentos registrados, com nome do cliente, serviço, data, horário e observações.
    - **Controle Total**: Opção de cancelar agendamento (liberando o horário na hora), reativar ou excluir permanentemente.
-   - **Métricas do Dia**: Contadores em tempo real de agendamentos do dia, total geral e horários livres.
+   - **Métricas em Tempo Real**: Contadores de agendamentos do dia, total geral, horários bloqueados e horários livres na data.
 
 3. **Animações Fluidas Estilo Framer**:
    - **Preloader Cinematográfico**: Tela de entrada com o logotipo oficial pulsando em dourado antes do carregamento suave da página.

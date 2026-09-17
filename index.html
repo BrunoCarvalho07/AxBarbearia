@@ -73,14 +73,20 @@
       {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": [
-          "Tuesday",
           "Wednesday",
           "Thursday",
-          "Friday",
+          "Friday"
+        ],
+        "opens": "10:30",
+        "closes": "20:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
           "Saturday"
         ],
         "opens": "09:00",
-        "closes": "20:00"
+        "closes": "17:00"
       }
     ],
     "sameAs": [
@@ -523,18 +529,12 @@
               </div>
 
               <div class="form-group">
-                <label><i class="fa-regular fa-clock" aria-hidden="true"></i> Horários Disponíveis</label>
-                <div class="slots-container">
-                  <button type="button" class="slot-btn active" data-time="09:00">09:00</button>
-                  <button type="button" class="slot-btn" data-time="10:00">10:00</button>
-                  <button type="button" class="slot-btn" data-time="11:00">11:00</button>
-                  <button type="button" class="slot-btn" data-time="13:30">13:30</button>
-                  <button type="button" class="slot-btn" data-time="14:30">14:30</button>
-                  <button type="button" class="slot-btn" data-time="15:30">15:30</button>
-                  <button type="button" class="slot-btn" data-time="16:30">16:30</button>
-                  <button type="button" class="slot-btn" data-time="17:30">17:30</button>
-                  <button type="button" class="slot-btn" data-time="18:30">18:30</button>
-                  <button type="button" class="slot-btn" data-time="19:30">19:30</button>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                  <label style="margin-bottom: 0;"><i class="fa-regular fa-clock" aria-hidden="true"></i> Horários Disponíveis</label>
+                  <span id="scheduleDayNote" style="font-size: 0.75rem; color: var(--gold-light); font-weight: 500;"></span>
+                </div>
+                <div class="slots-container" id="clientSlotsContainer">
+                  <!-- Horários gerados dinamicamente de acordo com o dia selecionado -->
                 </div>
               </div>
             </div>
@@ -729,7 +729,7 @@
             <div class="info-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></div>
             <div class="info-content">
               <h4>Horário de Funcionamento</h4>
-              <p>Terça a Sábado: 09:00 às 20:00<br>Domingos e Segundas: Fechado</p>
+              <p>Quarta a Sexta: 10:30 às 20:30<br>Sábado: 09:00 às 17:00<br>Domingo a Terça: Fechado</p>
             </div>
           </div>
 
